@@ -15,7 +15,7 @@ publisher VARCHAR NOT NULL
 # Inserted the top 100 selling Playstaion 4 games data .csv into the table
 # Used SQL to look at the data to answer some questions.
 
--- #1 Find the ten best selling games. 
+-- #1 Find the ten highest selling games. 
 SELECT game_name as Game,
 publisher as Publisher,
 copies_sold as 'Copies Sold'
