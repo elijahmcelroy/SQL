@@ -1,0 +1,77 @@
+# For this project, I did the same as the spotify one. I downloaded the PS4 game data from Kaggle.
+# Then I created a table to insert the PS4 game sales data into.
+# Then I did some SQL queries.
+
+CREATE TABLE BIT_DB.PS4Games(
+id INTEGER PRIMARY KEY, 
+game_name VARCHAR NOT NULL,
+copies_sold INTEGER NOT NULL,
+release_date DATE,
+genre VARCHAR NOT NULL,
+developer VARCHAR NOT NULL,
+publisher VARCHAR NOT NULL
+)
+
+# Inserted the top 100 selling Playstaion 4 games data .csv into the table
+# Used SQL to look at the data to answer some questions.
+
+-- #1 Find the ten best selling games. 
+SELECT game_name as Game,
+publisher as Publisher,
+copies_sold as 'Copies Sold'
+FROM BIT_DB.PS4Games
+ORDER BY 'Copies Sold' DESC
+LIMIT 10;
+
+-- #2 What is the count of games that each publisher made? 
+SELECT publisher as Publisher,
+COUNT(game_name) as 'Games Published'
+FROM BIT_DB.PS4Games
+GROUP BY Publisher
+ORDER BY 'Games Published' DESC;
+
+-- #3 How many games and what was the total number of copies sold for each developer who sold more than one game
+SELECT developer as Developer,
+COUNT(game_name) as 'Games Sold',
+SUM(copies_sold) as 'Copies Sold'
+FROM BIT_DB.PS4Games
+GROUP BY Developer
+HAVING 'Games Sold' >1
+ORDER BY 'Copies Sold' DESC;
+
+--#4 Which games did Square Enix develop and how many copies were sold of each?
+SELECT game_name as Game,
+copies_sold as 'Copies Sold'
+FROM BIT_DB.PS4Games
+WHERE developer = 'Square Enix'
+ORDER BY 'Copies Sold' DESC;
+
+--#5 Which games sold more than 2 million copies?
+SELECT game_name as Game,
+copies_sold as 'Copies Sold'
+FROM BIT_DB.PS4Games
+WHERE 'Copies Sold' > 2000000
+ORDER BY 'Copies Sold' DESC;
+
+--#6 Everything about the games released before 2016 
+SELECT * 
+FROM BIT_DB.PS4Games
+WHERE CAST(SUBSTR(release_date,1,4) AS integer) < 2016;
+
+
+--#7 Showing the max selling game for each of the publishers
+SELECT publisher as Publisher,
+game_name as Game,
+MAX(copies_sold) as 'Copies Sold' 
+FROM BIT_DB.PS4Games
+GROUP BY publisher
+ORDER BY copies_sold DESC;
+
+--#8 Showing the max selling game for each Genre
+SELECT genre as Genre,
+game_name as Game,
+MAX(copies_sold) as 'Copies Sold'
+FROM BIT_DB.PS4Games
+GROUP BY Genre
+ORDER BY Genre;
+ 
